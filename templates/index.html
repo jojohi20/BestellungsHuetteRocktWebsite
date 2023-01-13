@@ -10,27 +10,32 @@
 {% block body %}
       <table>
         <tr>
-            <th>Id</th>
+            <th>Zeit</th>
             <th>Item</th>
-            <th>Amount</th>
+            <th>Menge</th>
             <th>Stand</th>
             <th>Actions</th>
         </tr>
-          {% for task in tasks %}
+          {% for order in orders %}
          <tr>
-             <td>{{ task.id }}</td>
-             <td>{{ task.item }}</td>
-             <td>{{ task.amount }}</td>
-             <td>{{ task.store}}</td>
+             <td>{{ order.displayTime }}</td>
+             <td>{{ order.itemName }}</td>
+             <td>{{ order.amount }}</td>
+             <td>{{ order.store}}</td>
              <td>
-                 <a href="/delete/{{ task.id }}">Delete</a>
+                 <a href="/done/{{ order.id }}">Erledigt</a>
 
              </td>
          </tr>
            {% endfor %}
       </table>
-
-
+ <!-- Gibts nen bessern weg um die Seite zu reloden ? -->
+<script>
+    function autoRefresh() {
+        window.location = window.location.href;
+    }
+    setInterval('autoRefresh()', 10000);
+</script>
 
 
 {% endblock body %}
