@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+    
+{% endblock head %}
+
+
+
+{% block body %}
+      <table>
+        <tr>
+            <th>Id</th>
+            <th>Item</th>
+            <th>Amount</th>
+            <th>Stand</th>
+            <th>Actions</th>
+        </tr>
+          {% for task in tasks %}
+         <tr>
+             <td>{{ task.id }}</td>
+             <td>{{ task.item }}</td>
+             <td>{{ task.amount }}</td>
+             <td>{{ task.store}}</td>
+             <td>
+                 <a href="/delete/{{ task.id }}">Delete</a>
+
+             </td>
+         </tr>
+           {% endfor %}
+      </table>
+
+
+
+
+{% endblock body %}
