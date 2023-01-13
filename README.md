@@ -10,5 +10,7 @@ man braucht einen "store" als url parameter z.B. ?store="Blau"
 ### /all
 liste aller Bestellungen 
 
-### /done/\<id\> 
+### /done/\<int:id\> 
 enpoint um Bestellungen von unerledigt zu erledigt zu ändern 
+### /cancel/\<int:id>
+endpoint um Bestellungen abzubrechen

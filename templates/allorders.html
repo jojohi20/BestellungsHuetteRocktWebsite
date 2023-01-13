@@ -14,6 +14,7 @@
           <th>Menge</th>
           <th>Stand</th>
           <th>Erledigt</th>
+          <th>Abgebrochen</th>
 
         </tr>
           {% for order in orders %}
@@ -24,6 +25,7 @@
            <td>{{ order.amount }}</td>
            <td>{{ order.owner}}</td>
            <td>{{ order.done}}</td>
+           <td>{{ order.canceled}}</td>
 
          </tr>
            {% endfor %}
