@@ -7,7 +7,7 @@
             <tr>
                 <td>{{ product.name }}</td>
                 <td>
-                    <form action="/list?store={{ store }}" method="POST">
+                    <form action="/order?store={{ store }}" method="POST">
                          <input type="hidden" id="id" name="id" value="{{ product.id }}">
                         <input type="number" name="amount" id="amount"/>
                         <input type="submit" value="Bestellen">

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock head %}
+
+
+{% block body %}
+      <table>
+        <tr>
+          <th>Id</th>
+          <th>Zeit</th>
+          <th>ItemID</th>
+          <th>Menge</th>
+          <th>Stand</th>
+          <th>Erledigt</th>
+
+        </tr>
+          {% for order in orders %}
+         <tr>
+           <td>{{ order.id }}</td>
+           <td>{{ order.time }}</td>
+           <td>{{ order.item }}</td>
+           <td>{{ order.amount }}</td>
+           <td>{{ order.owner}}</td>
+           <td>{{ order.done}}</td>
+
+         </tr>
+           {% endfor %}
+      </table>
+ <!-- Gibts nen bessern weg um die Seite zu reloden ? -->
+<script>
+    function autoRefresh() {
+        window.location = window.location.href;
+    }
+    setInterval('autoRefresh()', 10000);
+</script>
+
+
+{% endblock body %}

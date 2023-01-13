@@ -58,7 +58,7 @@ def index():
         if order.done:
             continue
 
-        itemName = get_product_with_id(order.id).name
+        itemName = get_product_with_id(order.item).name
         displayTime = order.time.strftime("%H:%M")
         displayOrder = DisplayOrder(order.id, order.amount, itemName, order.owner, displayTime)
         displayOrders.append(displayOrder)
@@ -73,14 +73,19 @@ def add_order(form, store):
     try:
         db.session.add(newOrder)
         db.session.commit()
-        print(store)
-        return redirect("/list?store=" + store)
+        return redirect("/order?store=" + store)
     except:
         return "Failed to create Task"
 
+# Liste aller Bestellungen
+@app.route("/all", methods=['GET'])
+def all_list():
+    orders = Order.query.order_by(Order.id).all()
+    return render_template("allorders.html", orders=orders)
 
-@app.route("/list", methods=['POST', 'GET'])
-def product_list():
+# Bestellungs Ansicht
+@app.route("/order", methods=['POST', 'GET'])
+def product_order():
     #mit ?store= werden die Stände identifziert
     store = request.args.get("store")
     if not store in stores:
