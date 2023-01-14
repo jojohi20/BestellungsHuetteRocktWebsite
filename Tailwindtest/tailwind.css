@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.p-m-btn {
+    @apply rounded-md bg-gray-800 text-gray-100 text-center text-4xl font-semibold; 
+    height: 3rem; 
+    width: 3rem;
+    padding-bottom: 1rem;
+}

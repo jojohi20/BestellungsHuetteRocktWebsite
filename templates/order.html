@@ -3,16 +3,28 @@
 {% block body %}
     
     <table>
+        <tr>
+            <th>Produktname</th>
+            <th>Menge</th>
+            <th></th>
+        </tr>
         {% for product in products %}
             <tr>
-                <td>{{ product.name }}</td>
-                <td>
-                    <form action="/order?store={{ store }}" method="POST">
-                         <input type="hidden" id="id" name="id" value="{{ product.id }}">
-                        <input type="number" name="amount" id="amount"/>
-                        <input type="submit" value="Bestellen">
-                    </form>
-                </td>
+                <form action="/order?store={{ store }}" method="POST">
+                    <input type="hidden" id="id" name="id" value="{{ product.id }}">
+                    <td>{{ product.name }}</td>
+                    <td>
+                        <input type="number" name="amount" id="amount{{ product.id }}" readonly value=0>
+                        <button class="p-m-btn" type="button" onclick="chageAmount(-1,1)">-</button>
+                        <button class="p-m-btn" type="button" onclick="chageAmount(1,1)">+</button>
+                    </td>
+                    <td>
+                         <input type="submit" value="Bestellen">
+                    </td>
+
+
+                </form>
+
             </tr>
         {% endfor %}
 
@@ -30,7 +42,6 @@
              <td>{{ order.displayTime }}</td>
              <td>{{ order.itemName }}</td>
              <td>{{ order.amount }}</td>
-             <td>{{ order.store}}</td>
              <td>
                  <a href="/cancel/{{ order.id }}?store={{ store }}">Abbrechen</a>
 
@@ -38,6 +49,6 @@
          </tr>
            {% endfor %}
       </table>
- <!-- Gibts nen bessern weg um di
+
 
 {% endblock body %}

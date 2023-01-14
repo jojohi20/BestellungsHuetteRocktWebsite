@@ -130,3 +130,5 @@ dmypy.json
 
 #ide
 .idea/
+
+Tailwindtest/node_modules/
