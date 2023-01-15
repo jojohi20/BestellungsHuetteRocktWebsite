@@ -11,16 +11,24 @@
       <table>
         <tr>
             <th>Zeit</th>
-            <th>Item</th>
-            <th>Menge</th>
+            <th>Produkte</th>
+            <th>Mengen</th>
             <th>Stand</th>
             <th>Actions</th>
         </tr>
           {% for order in orders %}
          <tr>
              <td>{{ order.displayTime }}</td>
-             <td>{{ order.itemName }}</td>
-             <td>{{ order.amount }}</td>
+             <td>
+                  {% for item in order.itemNames %}
+                    <p>{{ item }}</p>
+                  {% endfor %}
+             </td>
+             <td>
+                 {% for amount in order.amounts %}
+                    <p>{{ amount }}</p>
+                 {% endfor %}
+             </td>
              <td>{{ order.store}}</td>
              <td>
                  <a href="/done/{{ order.id }}">Erledigt</a>

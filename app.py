@@ -2,17 +2,18 @@ from datetime import datetime
 
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy, query
+from sqlalchemy.dialects.postgresql import ARRAY
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///test.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:postgres@localhost/hr'
 db = SQLAlchemy(app)
 
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item = db.Column(db.Integer, nullable=False)
+    items = db.Column(ARRAY(db.Integer), nullable=False)
+    amounts = db.Column(ARRAY(db.Integer), nullable=False)
     owner = db.Column(db.String(32), nullable=False)
-    amount = db.Column(db.Integer, nullable=False)
     done = db.Column(db.Boolean, default=False)
     canceled = db.Column(db.Boolean, default=False)
     time = db.Column(db.DateTime, default=datetime.now)
@@ -28,10 +29,10 @@ class Product:
 
 
 class DisplayOrder:
-    def __init__(self, id, amount, itemName, store,displaytime):
+    def __init__(self, id, amounts, itemNames, store,displaytime):
         self.id = id
-        self.amount = amount
-        self.itemName = itemName
+        self.amounts = amounts
+        self.itemNames = itemNames
         self.store = store
         self.displayTime = displaytime
 
@@ -55,9 +56,9 @@ def transform_orders_to_display(orders):
         if order.done or order.canceled:
             continue
 
-        itemName = get_product_with_id(order.item).name
+        itemNames = [get_product_with_id(item).name for item in order.items]
         displayTime = order.time.strftime("%H:%M")
-        displayOrder = DisplayOrder(order.id, order.amount, itemName, order.owner, displayTime)
+        displayOrder = DisplayOrder(order.id, order.amounts, itemNames, order.owner, displayTime)
         displayOrders.append(displayOrder)
     return displayOrders
 
@@ -80,15 +81,21 @@ def all_list():
 
 
 def add_order(form, store):
-    id = form["id"]
-    amount = form["amount"]
-    newOrder = Order(item=id, amount=amount, owner=store)
+    items, amounts = [], []
+    for product in products:
+        amount = int(form[f"amount{product.id}"])
+        if amount <= 0:
+            continue
+        items.append(product.id)
+        amounts.append(int(amount))
+
+    newOrder = Order(items=items, amounts=amounts, owner=store)
     try:
         db.session.add(newOrder)
         db.session.commit()
         return redirect("/order?store=" + store)
     except:
-        return "Failed to create Task"
+        return "Failed to create Task. Relode"
 
 
 # Bestellungs Ansicht
