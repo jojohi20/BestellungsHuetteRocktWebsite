@@ -1,34 +1,32 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/order.js')}}"></script>
+{% endblock head %}
+
 {% block body %}
-    
-    <table>
-        <tr>
-            <th>Produktname</th>
-            <th>Menge</th>
-            <th></th>
-        </tr>
-        {% for product in products %}
+    <form action="/order?store={{ store }}" method="POST">
+        <table>
             <tr>
-                <form action="/order?store={{ store }}" method="POST">
-                    <input type="hidden" id="id" name="id" value="{{ product.id }}">
+                <th>Produktname</th>
+                <th>Menge</th>
+            </tr>
+
+            {% for product in products %}
+            <tr>
                     <td>{{ product.name }}</td>
                     <td>
-                        <input type="number" name="amount" id="amount{{ product.id }}" readonly value=0>
-                        <button class="p-m-btn" type="button" onclick="chageAmount(-1,1)">-</button>
-                        <button class="p-m-btn" type="button" onclick="chageAmount(1,1)">+</button>
+                        <input type="number" name="amount{{ product.id }}" id="amount{{ product.id }}" readonly value=0>
+                        <button class="p-m-btn" type="button" onclick="chageAmount(-1, {{ product.id }} )">-</button>
+                        <button class="p-m-btn" type="button" onclick="chageAmount(1, {{ product.id }} )">+</button>
                     </td>
-                    <td>
-                         <input type="submit" value="Bestellen">
-                    </td>
-
-
-                </form>
 
             </tr>
-        {% endfor %}
+            {% endfor %}
 
-    </table>
+        </table>
+        <input type="submit" value="Bestellen">
+    </form>
     <h2>Deine Bestellungen:</h2>
      <table>
         <tr>
@@ -40,11 +38,18 @@
           {% for order in orders %}
          <tr>
              <td>{{ order.displayTime }}</td>
-             <td>{{ order.itemName }}</td>
-             <td>{{ order.amount }}</td>
+             <td>
+                  {% for item in order.itemNames %}
+                    <p>{{ item }}</p>
+                  {% endfor %}
+             </td>
+             <td>
+                 {% for amount in order.amounts %}
+                    <p>{{ amount }}</p>
+                 {% endfor %}
+             </td>
              <td>
                  <a href="/cancel/{{ order.id }}?store={{ store }}">Abbrechen</a>
-
              </td>
          </tr>
            {% endfor %}
