@@ -31242,6 +31242,32 @@ video {
   padding-bottom: 1rem;
 }
 
+.order-product {
+  margin-bottom: 1rem;
+  width: 24rem;
+  border-radius: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: rgba(55, 65, 81, var(--tw-bg-opacity));
+  padding: 0.75rem;
+  --tw-text-opacity: 1;
+  color: rgba(249, 250, 251, var(--tw-text-opacity));
+}
+
+.order-content {
+  display: grid;
+  grid-auto-flow: column;
+  padding:50px;
+}
+
+.amount-counter {
+  margin-right: 7rem;
+  display: inline-block;
+  padding-top: 0.75rem;
+  vertical-align: top;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

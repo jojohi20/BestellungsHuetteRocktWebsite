@@ -38,8 +38,13 @@ class DisplayOrder:
 
 
 products = []
-products.append(Product("Apfel", 1))
-products.append(Product("Banane", 2))
+products.append(Product("Fass Pils", 1))
+products.append(Product("Kiste Cola", 2))
+products.append(Product("Kiste Fanta", 3))
+products.append(Product("Kiste Sprite", 4))
+products.append(Product("Kiste Wasser", 5))
+products.append(Product("Kiste Becher", 6))
+
 
 stores = ["Blau", "Rot", "Grün"]
 
