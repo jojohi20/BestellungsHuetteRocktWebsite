@@ -31243,7 +31243,7 @@ video {
 }
 
 .order-product {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   width: 24rem;
   border-radius: 1rem;
   --tw-bg-opacity: 1;
@@ -31266,6 +31266,17 @@ video {
   vertical-align: top;
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.orders-tabel {
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgba(156, 163, 175, var(--tw-border-opacity));
+  padding: 0.5rem;
+}
+
+.ml-68 {
+  margin-left: 17rem;
 }
 
 @media (min-width: 640px) {
@@ -182517,3 +182528,4 @@ video {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+  

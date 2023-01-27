@@ -31,8 +31,7 @@ class Product:
 class DisplayOrder:
     def __init__(self, id, amounts, itemNames, store,displaytime):
         self.id = id
-        self.amounts = amounts
-        self.itemNames = itemNames
+        self.items_amounts = zip(itemNames, amounts)
         self.store = store
         self.displayTime = displaytime
 
@@ -63,6 +62,7 @@ def transform_orders_to_display(orders):
 
         itemNames = [get_product_with_id(item).name for item in order.items]
         displayTime = order.time.strftime("%H:%M")
+
         displayOrder = DisplayOrder(order.id, order.amounts, itemNames, order.owner, displayTime)
         displayOrders.append(displayOrder)
     return displayOrders
@@ -87,12 +87,16 @@ def all_list():
 
 def add_order(form, store):
     items, amounts = [], []
+    
     for product in products:
         amount = int(form[f"amount{product.id}"])
         if amount <= 0:
             continue
         items.append(product.id)
         amounts.append(int(amount))
+
+    if len(items) == 0:
+        return redirect("/order?store=" + store)
 
     newOrder = Order(items=items, amounts=amounts, owner=store)
     try:

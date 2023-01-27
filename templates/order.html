@@ -10,46 +10,45 @@
         <form action="/order?store={{ store }}" method="POST">
 
             {% for product in products %}
-            <div>
+            <div class="order-product"> 
                 <h2 class="font-bold text-xl">{{ product.name }}</h2>
                 <input type="hidden" name="amount{{ product.id }}" id="amount{{ product.id }}" value=0>
                 <p class="amount-counter" id="amount-display{{ product.id }}">Menge: 0</p>
                 <button class="p-m-btn" type="button" onclick="chageAmount(-1, {{ product.id }} )">-</button>
                 <button class="p-m-btn" type="button" onclick="chageAmount(1, {{ product.id }} )">+</button>
-
             </div>
             {% endfor %}
-
+        
+            <input class="w-28 bg-gray-700 text-gray-50 p-3 rounded-xl text-xl ml-68" type="submit" value="Bestellen">
         </form>
     </div>
+
     <div class="col-span-2">
-        <h2>Deine Bestellungen:</h2>
-        <table>
-            <tr>
-                <th>Zeit</th>
-                <th>Item</th>
-                <th>Menge</th>
-                <th>Actions</th>
+        <h2 class="text-2xl font-bold text-gray-50">Deine Bestellungen:</h2>
+
+        <table class="table-auto w-96 mb-3 bg-gray-700 text-gray-50 p-3 w-96 text-left">
+            <tr class="align-top">
+                <th class="orders-tabel">Zeit</th>
+                <th class="orders-tabel">Item</th>
+                <th class="orders-tabel">Aktionen</th>
             </tr>
             {% for order in orders %}
-            <tr>
-                <td>{{ order.displayTime }}</td>
-                <td>
-                    {% for item in order.itemNames %}
-                    <p>{{ item }}</p>
+            <tr class="align-top">
+                <td class="orders-tabel">{{ order.displayTime }}</td>
+                <td class="orders-tabel">
+                    {% for item, amount in order.items_amounts %}
+                        <p>{{ amount }}x {{ item }}</p>
                     {% endfor %}
+                    
                 </td>
-                <td>
-                    {% for amount in order.amounts %}
-                    <p>{{ amount }}</p>
-                    {% endfor %}
-                </td>
-                <td>
-                    <a href="/cancel/{{ order.id }}?store={{ store }}">Abbrechen</a>
+                <td class="orders-tabel">
+                    <a href="/cancel/{{ order.id }}?store={{ store }}" class="bg-gray-800 p-2 rounded-xl">Abbrechen</a>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </div>
 </div>
+
+
 {% endblock body %}
