@@ -1,4 +1,3 @@
-const { get } = require("https");
 
 store = document.currentScript.getAttribute('store'); // 1
 function getOrders(){
@@ -36,7 +35,7 @@ function getOrders(){
                 actionsCell.innerHTML = `<a href="/done/${order.id}" class="bg-gray-800 p-2 rounded-xl">Erledigt</a>`;
             }
             else {
-                actionsCell.innerHTML = `<a href="/cancel/${order.id}${store}" class="bg-gray-800 p-2 rounded-xl">Erledigt</a>`;
+                actionsCell.innerHTML = `<a href="/cancel/${order.id}${store}" class="bg-gray-800 p-2 rounded-xl">Abbrechen</a>`;
             }
             
             row.appendChild(timeCell);
@@ -51,7 +50,7 @@ function getOrders(){
     });
 }
 
-getgetOrders()
+getOrders()
 setInterval(() => {
     getOrders()
 }, 5000);
