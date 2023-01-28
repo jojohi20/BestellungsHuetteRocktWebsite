@@ -15,6 +15,7 @@ class Order(db.Model):
     amounts = db.Column(ARRAY(db.Integer), nullable=False)
     owner = db.Column(db.String(32), nullable=False)
     done = db.Column(db.Boolean, default=False)
+    in_progress = db.Column(db.Boolean, default=False)
     canceled = db.Column(db.Boolean, default=False)
     time = db.Column(db.DateTime, default=datetime.now)
 
@@ -29,11 +30,12 @@ class Product:
 
 
 class DisplayOrder:
-    def __init__(self, id, amounts, itemNames, store,displaytime):
+    def __init__(self, id, amounts, itemNames, store,displaytime, in_progress):
         self.id = id
         self.items_amounts = zip(itemNames, amounts)
         self.store = store
         self.displayTime = displaytime
+        self.in_progress = in_progress
 
 
 products = []
@@ -63,7 +65,7 @@ def transform_orders_to_display(orders):
         itemNames = [get_product_with_id(item).name for item in order.items]
         displayTime = order.time.strftime("%H:%M")
 
-        displayOrder = DisplayOrder(order.id, order.amounts, itemNames, order.owner, displayTime)
+        displayOrder = DisplayOrder(order.id, order.amounts, itemNames, order.owner, displayTime, order.in_progress)
         displayOrders.append(displayOrder)
     return displayOrders
 
@@ -123,7 +125,7 @@ def product_order():
         # gibt die aktuellen bestellungen zurück
         orders = Order.query.order_by(Order.id).filter(Order.owner== store)
         displayOrders = transform_orders_to_display(orders)
-        return render_template("order.html", products=products, store=store, orders=displayOrders)
+        return render_template("order.html",store=store, products=products, orders=displayOrders)
 
 
 # entfernt die Bestellung aus der Liste
@@ -153,30 +155,30 @@ def cancel(id):
     store = request.args.get("store")
     return redirect(f"/order?store={store}")
 
+@app.route("/accept/<int:id>")
+def accept(id):
+    order = Order.query.get_or_404(id)
+    try:
+        order.in_progress = True
+        db.session.commit()
+    except:
+        print("Error editing Order")
+
+    return redirect("/")
+
 @app.route('/getOrders', methods=['GET'])
-def get_orders():
+def get_orders2():
     store = request.args.get("store")
     orders = Order.query.order_by(Order.id)
 
+    action = "done"
     if store:
         orders = orders.filter(Order.owner == store)
-        action = "done"
-
+        action = "cancel"
     displayOrders = transform_orders_to_display(orders)
-    data = []
+    print(store)
+    return render_template("ordertable.html", store=store, orders=displayOrders)
 
-    for order in displayOrders:
-        items, amounts = zip(*order.items_amounts)
-        
-        data.append({
-            "id": order.id,
-            "items": items,
-            "amounts": amounts,
-            "store": order.store,
-            "displayTime": order.displayTime,
-        })
-
-    return jsonify(data)
 
 
 if __name__ == "__main__":

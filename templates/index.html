@@ -14,29 +14,16 @@
             <th class="orders-tabel">Zeit</th>
             <th class="orders-tabel">Stand</th>
             <th class="orders-tabel">Item</th>
+            <th class="orders-tabel">Status</th>
             <th class="orders-tabel">Aktionen</th>
         </tr>
     </thead>
-    <tbody>
-        {% for order in orders %}
-        <tr class="align-top order">
-            <td class="orders-tabel">{{ order.displayTime }}</td>
-            <td class="orders-tabel">{{ order.store }}</td>
-            <td class="orders-tabel">
-                {% for item, amount in order.items_amounts %}
-                    <p>{{ amount }}x {{ item }}</p>
-                {% endfor %}
-                
-            </td>
-            <td class="orders-tabel">
-                <a href="/done/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Erledigt</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <tbody id="tb">
+       {% include 'ordertable.html' %}
     </tbody>
     </table>
 
-<script type="text/javascript" src="{{ url_for('static', filename='js/fetchorders.js')}}" store=""> setInterval(() => {fetchOrders()}, 5000);</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/fetchorders.js')}}" store=""></script>
 
 
 {% endblock body %}

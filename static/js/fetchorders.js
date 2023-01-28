@@ -1,6 +1,6 @@
 
 store = document.currentScript.getAttribute('store'); // 1
-function getOrders(){
+function getOrders2(){
     fetch('/getOrders' + store)
     .then(response => response.json())
     .then(data => {
@@ -50,7 +50,15 @@ function getOrders(){
     });
 }
 
-getOrders()
+function getOrders(){
+    fetch('/getOrders' + store)
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('tb').innerHTML = html;
+  });
+}
+
+
 setInterval(() => {
     getOrders()
 }, 5000);
