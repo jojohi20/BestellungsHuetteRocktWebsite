@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy, query
 from sqlalchemy.dialects.postgresql import ARRAY
 
@@ -152,6 +152,32 @@ def cancel(id):
 
     store = request.args.get("store")
     return redirect(f"/order?store={store}")
+
+@app.route('/getOrders', methods=['GET'])
+def get_orders():
+    store = request.args.get("store")
+    orders = Order.query.order_by(Order.id)
+
+    if store:
+        orders = orders.filter(Order.owner == store)
+        action = "done"
+
+    displayOrders = transform_orders_to_display(orders)
+    data = []
+
+    for order in displayOrders:
+        items, amounts = zip(*order.items_amounts)
+        
+        data.append({
+            "id": order.id,
+            "items": items,
+            "amounts": amounts,
+            "store": order.store,
+            "displayTime": order.displayTime,
+        })
+
+    return jsonify(data)
+
 
 if __name__ == "__main__":
     with app.app_context():

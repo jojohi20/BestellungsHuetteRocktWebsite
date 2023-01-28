@@ -27,11 +27,14 @@
         <h2 class="text-2xl font-bold text-gray-50">Deine Bestellungen:</h2>
 
         <table class="table-auto w-96 mb-3 bg-gray-700 text-gray-50 p-3 w-96 text-left">
+            <thead>
             <tr class="align-top">
                 <th class="orders-tabel">Zeit</th>
                 <th class="orders-tabel">Item</th>
                 <th class="orders-tabel">Aktionen</th>
             </tr>
+        </thead>
+        <tbody>
             {% for order in orders %}
             <tr class="align-top">
                 <td class="orders-tabel">{{ order.displayTime }}</td>
@@ -46,9 +49,11 @@
                 </td>
             </tr>
             {% endfor %}
+        </tbody>
         </table>
     </div>
 </div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/fetchorders.js')}}" store="?store={{ store }}"> setInterval(() => {fetchOrders()}, 5000);</script>
 
 
 {% endblock body %}
