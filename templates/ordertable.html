@@ -2,27 +2,27 @@
 <tr class="order">
     <td class="orders-tabel">{{ order.displayTime }}</td>
     {% if not store %}
-    <td class="orders-tabel">{{ order.store }}</td>
+        <td class="orders-tabel">{{ order.store }}</td>
     {% endif %}
     <td class="orders-tabel">
         {% for item, amount in order.items_amounts %}
-        <p>{{ amount }}x {{ item }}</p>
+            <p>{{ amount }}x {{ item }}</p>
         {% endfor %}
     </td>
     <td class="orders-tabel ">
         {% if order.in_progress%}
-        <a class="rounded-2xl bg-green-600 p-1">Wird gebracht</a>
+            <a class="rounded-2xl bg-green-600 p-1">Wird gebracht</a>
         {% else %}
-        <a class="rounded-xl bg-yellow-500 p-1">Warteschlange</a>
+            <a class="rounded-xl bg-yellow-500 p-1">Warteschlange</a>
         {% endif %}
     </td>
     <td class="orders-tabel">
         {% if store %}
-        <a href="/cancel/{{ order.id }}?store={{ store }}" class="bg-gray-800 p-2 rounded-xl">Abbrechen</a>
+            <a href="/cancel/{{ order.id }}?store={{ store }}" class="bg-gray-800 p-2 rounded-xl">Abbrechen</a>
         {% elif order.in_progress%}
-        <a href="/done/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Erledigt</a>
+            <a href="/done/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Erledigt</a>
         {% else%}
-        <a href="/accept/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Anhemen</a>
+            <a href="/accept/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Anhemen</a>
         {% endif %}
 
     </td>
