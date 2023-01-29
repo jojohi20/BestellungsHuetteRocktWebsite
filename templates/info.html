@@ -12,7 +12,7 @@
         <th class="orders-tabel">{{ store }}</th>
         {% endfor %}
     </tr>
-    <tr>
+    <tr class="align-top">
         {% for items_amounts in store_items.values() %}
         <td class="orders-tabel">
             {% for item, amount in items_amounts.items() %}
