@@ -123,10 +123,29 @@ def product_order():
 
     else:
         # gibt die aktuellen bestellungen zurück
-        orders = Order.query.order_by(Order.id).filter(Order.owner== store)
+        orders = Order.query.order_by(Order.id).filter(Order.owner == store)
         displayOrders = transform_orders_to_display(orders)
         return render_template("order.html",store=store, products=products, orders=displayOrders)
 
+
+@app.route("/info", methods=['POST', 'GET'])
+def info():
+    store_items = {}
+    for store in stores:
+        orders = Order.query.order_by(Order.id).filter(Order.owner == store)
+        items = {}
+        for order in orders:
+            if not order.done:
+                continue
+            for i, item in enumerate(order.items):
+                product_name = get_product_with_id(item).name
+                if not product_name in items:
+                    items[product_name] = 0
+                items[product_name] += order.amounts[i]
+
+        store_items[store] = items
+    print(store_items)
+    return render_template("info.html", store_items=store_items)
 
 # entfernt die Bestellung aus der Liste
 @app.route("/done/<int:id>")
@@ -167,16 +186,14 @@ def accept(id):
     return redirect("/")
 
 @app.route('/getOrders', methods=['GET'])
-def get_orders2():
+def get_orders():
     store = request.args.get("store")
     orders = Order.query.order_by(Order.id)
 
-    action = "done"
     if store:
         orders = orders.filter(Order.owner == store)
-        action = "cancel"
+
     displayOrders = transform_orders_to_display(orders)
-    print(store)
     return render_template("ordertable.html", store=store, orders=displayOrders)
 
 
