@@ -14,3 +14,8 @@ liste aller Bestellungen
 enpoint um Bestellungen von unerledigt zu erledigt zu ändern 
 ### /cancel/\<int:id>
 endpoint um Bestellungen abzubrechen
+### /accept/\<int:id>
+endpoint um Bestellungen an zu nehmen und den Status zu ändern
+
+### /getOrders
+fetch api  die die tabelle der aktuellen bestellungen zurückgibt
