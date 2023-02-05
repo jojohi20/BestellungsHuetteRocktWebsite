@@ -144,7 +144,6 @@ def info():
                 items[product_name] += order.amounts[i]
 
         store_items[store] = items
-    print(store_items)
     return render_template("info.html", store_items=store_items)
 
 # entfernt die Bestellung aus der Liste
