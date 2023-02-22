@@ -11,18 +11,20 @@
     </td>
     <td class="orders-tabel ">
         {% if order.in_progress%}
-            <a class="rounded-2xl bg-green-600 p-1">Wird gebracht</a>
+       
+            <div class="rounded-2xl bg-green-600 p-1"><p class="hidden sm:table-cell ">Wird gebracht</p></div>
         {% else %}
-            <a class="rounded-xl bg-yellow-500 p-1">Warteschlange</a>
+        <div class="rounded-xl bg-yellow-500 p-1"><p class="hidden sm:table-cell ">Pending</p></div>
+            
         {% endif %}
     </td>
     <td class="orders-tabel">
         {% if store %}
             <a href="/cancel/{{ order.id }}?store={{ store }}" class="bg-gray-800 p-2 rounded-xl">Abbrechen</a>
         {% elif order.in_progress%}
-            <a href="/done/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Erledigt</a>
+            <a href="/done/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Done</a>
         {% else%}
-            <a href="/accept/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Anhemen</a>
+            <a href="/accept/{{ order.id }}" class="bg-gray-800 p-2 rounded-xl">Acept</a>
         {% endif %}
 
     </td>
