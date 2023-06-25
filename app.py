@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 
 from flask import Flask, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy, query
@@ -8,6 +9,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:postgres@localhost/hr'
 db = SQLAlchemy(app)
 
+tz = pytz.timezone('Europe/Berlin')
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,7 +19,7 @@ class Order(db.Model):
     done = db.Column(db.Boolean, default=False)
     in_progress = db.Column(db.Boolean, default=False)
     canceled = db.Column(db.Boolean, default=False)
-    time = db.Column(db.DateTime, default=datetime.now)
+    time = db.Column(db.DateTime, default=datetime.now(tz))
 
     def __repr__(self):
         return f"Created Order with id: {self.id}"
@@ -47,7 +49,7 @@ products.append(Product("Kiste Wasser", 5))
 products.append(Product("Kiste Becher", 6))
 
 
-stores = ["Blau", "Rot", "Grün"]
+stores = ["Zelt", "Wohnzimmer", "Infield"]
 
 
 def get_product_with_id(id):
