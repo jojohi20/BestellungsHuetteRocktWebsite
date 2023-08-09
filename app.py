@@ -102,7 +102,7 @@ def add_order(form, store):
     if len(items) == 0:
         return redirect("/order?store=" + store)
 
-    newOrder = Order(items=items, amounts=amounts, owner=store)
+    newOrder = Order(items=items, amounts=amounts, owner=store, time=datetime.now(tz))
     try:
         db.session.add(newOrder)
         db.session.commit()
